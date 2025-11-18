@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soham S. Thakare - Portfolio</title>
+    <link rel="preload" href="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" as="image">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Intro Animation --- */
+        #intro-loader {
+            animation: loader-fade-out 1.5s ease-in-out forwards; /* Faster fade out */
+        }
+
+        @keyframes loader-fade-out {
+            0% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        .animate-intro-text-name {
+            animation: intro-text-pop 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards; /* Faster pop */
+        }
+
+        .animate-intro-text-tagline {
+            opacity: 0;
+            animation: intro-text-fade-up 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.1s forwards; /* Faster fade up, reduced delay */
+        }
+
+        @keyframes intro-text-pop {
+            0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        @keyframes intro-text-fade-up {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        /* --- End Intro Animation --- */
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            opacity: 0;
+            animation: fadeInUp 0.4s ease-out forwards; /* Faster */
+            will-change: transform, opacity; /* Performance optimization */
+        }
+
+        .animate-fade-in {
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards; /* Faster */
+            will-change: opacity; /* Performance optimization */
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.3s ease-out; /* Faster */
+            will-change: transform, opacity; /* Performance optimization */
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes pop-in {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-pop-in {
+            animation: pop-in 0.3s cubic-bezier(0.25, 1, 0.5, 1) forwards; /* Faster */
+            will-change: transform, opacity; /* Performance optimization */
+        }
+
+        @keyframes fadeInScaleUp {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .animate-fade-in-scale-up {
+            opacity: 0;
+            animation: fadeInScaleUp 0.4s ease-out forwards; /* Faster */
+            will-change: transform, opacity; /* Performance optimization */
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/client": "https://aistudiocdn.com/react-dom@^19.2.0/client",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  }
+}
+</script>
+</head>
+<body class="bg-white text-gray-900">
+    <div id="root"></div>
+    <script type="module">
+        import React, { useState, useEffect, useRef } from 'react';
+        import ReactDOM from 'react-dom/client';
+
+        // --- CONSTANTS ---
+        const NAV_LINKS = [
+            { href: "#home", label: "Home" },
+            { href: "#about", label: "About" },
+            { href: "#skills", label: "Skills" },
+            { href: "#projects", label: "Projects" },
+            { href: "#websites", label: "Websites" },
+            { href: "#startup", label: "Startup" },
+            { href: "#certificates", label: "Certificates" },
+            { href: "#contact", label: "Contact" },
+        ];
+
+        const TECHNICAL_SKILLS = [
+            "HTML", "CSS", "C", "C++", "Python", "SQL", "Firebase", 
+            "MySQL", "Arduino IDE", "VS Code", "Adobe Premiere", "Canva", "MS Word"
+        ];
+
+        const SOFT_SKILLS = [
+            { name: "Communication", level: 90 },
+            { name: "Leadership", level: 90 },
+            { name: "Problem Solving", level: 88 },
+            { name: "Teamwork", level: 94 },
+            { name: "Public Speaking", level: 78 },
+            { name: "Creativity", level: 94 },
+        ];
+
+        const PROJECTS = [
+            { 
+                icon: "fa-microchip", 
+                title: "Parking System", 
+                description: "Smart parking management system using Arduino UNO and Ultrasonic Sensor for automated vehicle detection.", 
+                tags: ["Arduino", "IoT", "Sensors"],
+                detailedDescription: "This project is an automated parking management system designed to streamline the process of finding and occupying parking spaces. It utilizes an Arduino UNO as the microcontroller, connected to ultrasonic sensors to detect the presence of vehicles in each parking spot. The system provides real-time status updates, indicating which spots are available or occupied, thereby reducing congestion and time spent searching for parking.",
+                technologies: ["Arduino UNO", "Ultrasonic Sensors", "C++ (Arduino)", "LED Indicators"],
+                imageUrl: "https://images.pexels.com/photos/3762368/pexels-photo-3762368.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            },
+            { 
+                icon: "fa-calculator", 
+                title: "Distance Calculator Sensor", 
+                description: "Precision distance measurement system utilizing ultrasonic technology for accurate readings.", 
+                tags: ["Arduino", "Sensors", "Electronics"],
+                detailedDescription: "A compact and efficient distance measurement tool built with an Arduino and an ultrasonic sensor. This device can accurately calculate the distance to an object by emitting sound waves and measuring the time it takes for the echo to return. It's a foundational project for understanding sensor integration and real-time data processing in embedded systems.",
+                technologies: ["Arduino Nano", "Ultrasonic Sensor", "LCD Display", "C++"],
+                imageUrl: "https://images.pexels.com/photos/8438918/pexels-photo-8438918.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            },
+            { 
+                icon: "fa-lightbulb", 
+                title: "Lify Technology Project", 
+                description: "Innovative technology solution focused on improving daily life through automation.", 
+                tags: ["Innovation", "Technology"],
+                detailedDescription: "Lify Technology is a conceptual framework for a series of smart devices designed to automate and simplify everyday household tasks. The project focuses on creating a connected ecosystem of IoT devices that can be controlled and monitored remotely, aiming to enhance convenience, energy efficiency, and home security.",
+                technologies: ["IoT", "Conceptual Design", "Automation", "System Architecture"],
+                imageUrl: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            },
+            { 
+                icon: "fa-microphone", 
+                title: "AI Voice Assistant", 
+                description: "Intelligent voice-activated assistant powered by AI for seamless user interaction.", 
+                tags: ["AI", "Python", "Voice Recognition"],
+                detailedDescription: "This project involved developing a custom AI voice assistant using Python. It can understand and respond to voice commands, perform tasks like searching the web, telling jokes, or controlling other applications. The project explores speech recognition, natural language processing (NLP), and text-to-speech synthesis to create a conversational user experience.",
+                technologies: ["Python", "SpeechRecognition", "pyttsx3", "Natural Language Processing"],
+                imageUrl: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            },
+            { 
+                icon: "fa-comment-dots", 
+                title: "AI Chatbot", 
+                description: "Conversational AI chatbot designed to provide intelligent responses and assistance.", 
+                tags: ["AI", "NLP", "Python"],
+                detailedDescription: "A sophisticated AI chatbot built from scratch using Python and NLP libraries. This chatbot is designed to understand user queries, provide relevant information, and maintain a natural-sounding conversation. It's a demonstration of how AI can be used to automate customer support, answer frequently asked questions, and engage users in an interactive way.",
+                technologies: ["Python", "NLTK", "TensorFlow", "Flask"],
+                imageUrl: "https://images.pexels.com/photos/8728383/pexels-photo-8728383.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            },
+            { 
+                icon: "fa-car", 
+                title: "Obstacle Avoiding Robot", 
+                description: "Autonomous robot with intelligent navigation to detect and avoid obstacles in real-time.", 
+                tags: ["Arduino", "Robotics", "Sensors"],
+                detailedDescription: "This is an autonomous mobile robot built on the Arduino platform. It uses ultrasonic sensors to scan its environment for obstacles and intelligently navigates around them without human intervention. The project combines hardware assembly, motor control, and sensor data processing to create a functional example of basic robotics and autonomous systems.",
+                technologies: ["Arduino UNO", "Motor Driver", "Ultrasonic Sensor", "C++"],
+                imageUrl: "https://images.pexels.com/photos/8566472/pexels-photo-8566472.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            },
+            { 
+                icon: "fa-robot", 
+                title: "Doc-Chat AI", 
+                description: "AI-powered document chat interface allowing users to interact with documents intelligently.", 
+                tags: ["AI", "NLP", "Web App"],
+                detailedDescription: "Doc-Chat AI is a web application that allows users to upload documents (like PDFs) and ask questions about their content. The AI uses natural language processing to understand the query, find the relevant information within the document, and provide a concise answer. It's a powerful tool for research, study, and information retrieval from large texts.",
+                technologies: ["React", "Python", "Flask", "LangChain", "NLP"],
+                imageUrl: "https://images.pexels.com/photos/7567434/pexels-photo-7567434.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            },
+        ];
+
+        const WEBSITES = [
+            { title: "Doc-Chat", status: "Live", description: "AI-powered document interaction platform for intelligent document chat.", tags: ["AI", "NLP", "React"], url: "http://docchatai20.netlify.app" },
+            { title: "SmartBuddy.AI", status: "Live", description: "Smart AI assistant for enhanced productivity and intelligent assistance.", tags: ["AI", "Chatbot", "Web App"], url: "http://smartbuddy-ai.netlify.app" },
+            { title: "Tolify", status: "Live", description: "AI-driven tool for streamlined workflows and automation.", tags: ["AI", "Automation", "React"], url: "http://tolifyai.netlify.app" },
+            { title: "Codenbuild", status: "Live", description: "Official website for Codenbuild startup - making engineering innovation accessible.", tags: ["Startup", "Platform", "React"], url: "http://codenbuild.netlify.app" },
+            { title: "Fixora", status: "Coming Soon", description: "Upcoming platform for streamlined problem-solving and support.", tags: ["Platform", "Support"] },
+            { title: "Smart Shelf", status: "Coming Soon", description: "IoT-enabled smart shelf solution for intelligent inventory management.", tags: ["IoT", "Hardware", "Smart Tech"] },
+        ];
+
+        const CERTIFICATES = [
+            { title: "Prarambh YCCE", type: "Participation Certificate", category: "Engineering Event", description: "Participated in Prarambh, showcasing involvement in engineering and innovation activities.", image: "https://raw.githubusercontent.com/sohamthakare15/portfolio/refs/heads/main/prarambhycc.jpg", issuer: "YCCE, Nagpur", date: "2023" },
+            { title: "TechFusion", type: "Participation Certificate", category: "Tech Event", description: "Active participation in TechFusion, focusing on coding and innovation.", image: "https://raw.githubusercontent.com/sohamthakare15/portfolio/refs/heads/main/techfusion.jpg", issuer: "YCCE, Nagpur", date: "2023" },
+            { title: "TechFusion - Turbidity Monitoring", type: "Project Presentation", category: "Project", description: "Presented a Turbidity Monitoring System demonstrating sensor technology.", image: "https://raw.githubusercontent.com/sohamthakare15/portfolio/refs/heads/main/techfusionturbidty.jpg", issuer: "YCCE, Nagpur", date: "2023" },
+            { title: "TechFusion Event", type: "Event Participation", category: "Engineering Event", description: "Participated in various engineering activities at TechFusion.", image: "https://raw.githubusercontent.com/sohamthakare15/portfolio/refs/heads/main/techfussion.jpg", issuer: "YCCE, Nagpur", date: "2023" },
+            { title: "Wings Drama", type: "Cultural Event Certificate", category: "Cultural", description: "Showcased creativity and expression in the drama event.", image: "https://raw.githubusercontent.com/sohamthakare15/portfolio/refs/heads/main/wingsdrama.jpg", issuer: "YCCE, Nagpur", date: "2023" },
+            { title: "Xplore", type: "Participation Certificate", category: "Tech Event", description: "Encouraged hands-on learning and exploration in technology.", image: "https://raw.githubusercontent.com/sohamthakare15/portfolio/refs/heads/main/xplore.jpg", issuer: "YCCE, Nagpur", date: "2023" },
+            { title: "Xplore - Googler Challenge", type: "Challenge Certificate", category: "Competition", description: "Participated in the Googler Challenge requiring analytical problem solving.", image: "https://raw.githubusercontent.com/sohamthakare15/portfolio/refs/heads/main/xploregogler.jpg", issuer: "YCCE, Nagpur", date: "2023" },
+            { title: "Pitch Fest", type: "Startup Pitch Certificate", category: "Startup", description: "Presented an innovative idea in the Pitch Fest competition.", image: "https://raw.githubusercontent.com/sohamthakare15/portfolio/refs/heads/main/pitchfest.jpg", issuer: "YCCE, Nagpur", date: "2024" },
+        ];
+
+        const STARTUP_INFO = {
+            name: "Codenbuild",
+            logo: "https://raw.githubusercontent.com/sohamthakare15/portfolio/refs/heads/main/Gemini_Generated_Image_sfc7mqsfc7mqsfc7.png",
+            tagline: "Making Engineering Innovation Accessible to Everyone.",
+            services: [
+                { icon: "fa-drafting-compass", title: "Project Kits", description: "Hands-on kits for engineering projects, from beginner to advanced levels." },
+                { icon: "fa-book-open", title: "Educational Content", description: "Tutorials, guides, and courses to help you learn new skills and technologies." },
+                { icon: "fa-users", title: "Community Platform", description: "A place to connect with other makers, share ideas, and collaborate on projects." },
+                { icon: "fa-tools", title: "Prototyping Services", description: "Helping you turn your ideas into functional prototypes with our expert support." },
+            ],
+            mission: "To empower students and enthusiasts with the tools, knowledge, and community support to bring their innovative engineering ideas to life.",
+            vision: "To be the leading platform for accessible, hands-on engineering education and project development, fostering a global community of innovators.",
+            coreValues: [
+                { icon: "fa-lightbulb", title: "Innovation", description: "Fostering creativity and new ideas." },
+                { icon: "fa-graduation-cap", title: "Learning", description: "Promoting continuous education and skill development." },
+                { icon: "fa-handshake", title: "Collaboration", description: "Building a supportive and interactive community." },
+                { icon: "fa-check-circle", title: "Quality", description: "Ensuring high standards in all our products and services." },
+                { icon: "fa-universal-access", title: "Accessibility", description: "Making engineering education available to everyone." },
+            ],
+            founders: [
+                { 
+                    imgSrc: "https://avatars.githubusercontent.com/u/221707959?s=400&u=3f6f606a289030d0256bacbe56dc8d269f04acf6&v=4", 
+                    name: "Soham S. Thakare", 
+                    role: "Co-Founder & CEO", 
+                    description: "Visionary leader with a passion for technology and education, driving the company's strategic direction." 
+                },
+                { 
+                    name: "Yash D. Wajekar", 
+                    role: "Co-Founder & CTO", 
+                    description: "The technical mastermind behind the platform, ensuring robust and scalable solutions." 
+                }
+            ],
+            whyUs: [
+                "Comprehensive project kits for all skill levels.",
+                "Supportive community for collaboration and learning.",
+                "Expert-led tutorials and high-quality educational content.",
+                "Dedicated to making engineering accessible and affordable.",
+            ],
+        };
+
+        // --- COMPONENTS ---
+        const Intro = () => {
+            return (
+                React.createElement("div", { 
+                    id: "intro-loader",
+                    className: "fixed inset-0 bg-gray-50 z-[100] flex items-center justify-center"
+                },
+                    React.createElement("div", { className: "text-center" },
+                        React.createElement("img", { 
+                            src: STARTUP_INFO.logo, 
+                            alt: "Logo", 
+                            className: "h-24 w-24 object-contain mx-auto mb-6 animate-intro-text-name bg-white rounded-full p-2 shadow-lg" 
+                        }),
+                        React.createElement("h1", { 
+                            className: "text-4xl md:text-6xl font-bold text-gray-900 animate-intro-text-name",
+                            style: { animationDelay: '0.2s' }
+                        },
+                            React.createElement("span", { className: "text-blue-600" }, "Soham S. Thakare")
+                        ),
+                        React.createElement("p", { 
+                            className: "text-lg md:text-xl text-gray-600 mt-4 animate-intro-text-tagline",
+                            style: { animationDelay: '0.4s' }
+                        },
+                            "Portfolio"
+                        ),
+                        React.createElement("p", { 
+                            className: "text-md md:text-lg text-gray-500 mt-2 animate-intro-text-tagline",
+                            style: { animationDelay: '0.6s' }
+                        },
+                            "#Team Techrenger"
+                        )
+                    )
+                )
+            );
+        };
+
+        const Navbar = () => {
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
+            const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+            useEffect(() => {
+                const handleSmoothScroll = (e) => {
+                    const anchor = e.target.closest('a[href^="#"]');
+                    if (!anchor) return;
+
+                    const href = anchor.getAttribute('href');
+                    if (!href || href === '#') return;
+
+                    e.preventDefault();
+                    if (isMenuOpen) setIsMenuOpen(false);
+                    const targetId = href.substring(1);
+                    
+                    if (targetId === 'home') {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        return;
+                    }
+
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const navbar = document.getElementById('navbar');
+                        const navbarHeight = navbar ? navbar.offsetHeight : 0;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+                        
+                        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                    }
+                };
+
+                document.addEventListener('click', handleSmoothScroll);
+                return () => document.removeEventListener('click', handleSmoothScroll);
+            }, [isMenuOpen]);
+
+            return (
+                React.createElement("nav", { id: "navbar", className: "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/80 backdrop-blur-sm shadow-md" },
+                    React.createElement("div", { className: "container mx-auto px-4 py-4" },
+                        React.createElement("div", { className: "flex items-center justify-between" },
+                            React.createElement("a", { href: "#home", className: "text-xl font-semibold text-gray-900" }, "Portfolio"),
+                            React.createElement("div", { className: "flex items-center gap-4" },
+                                React.createElement("div", { className: "hidden md:flex items-center gap-8" },
+                                    NAV_LINKS.map(link => React.createElement("a", { key: link.href, href: link.href, className: "text-sm text-gray-600 hover:text-blue-600 transition-colors" }, link.label))
+                                ),
+                                React.createElement("button", { id: "mobile-menu-btn", className: "md:hidden text-gray-600", onClick: toggleMenu },
+                                    React.createElement("i", { className: `fas ${isMenuOpen ? 'fa-times' : 'fa-bars'} text-xl` })
+                                )
+                            )
+                        ),
+                        React.createElement("div", { id: "mobile-menu", className: `${isMenuOpen ? 'flex' : 'hidden'} md:hidden pt-4 pb-2 flex-col gap-4` },
+                            NAV_LINKS.map(link => React.createElement("a", { key: link.href, href: link.href, className: "text-sm text-gray-600 hover:text-blue-600 transition-colors" }, link.label))
+                        )
+                    )
+                )
+            );
+        };
+
+        const Hero = () => {
+            const HQ_IMAGE_URL = "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
+            const LQ_IMAGE_URL = "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=100";
+
+            const lqImageRef = useRef(null);
+            const hqImageRef = useRef(null);
+            const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+            useEffect(() => {
+                const img = new Image();
+                img.src = HQ_IMAGE_URL;
+                img.onload = () => setIsImageLoaded(true);
+            }, []);
+
+            useEffect(() => {
+                const handleParallaxScroll = () => {
+                    const scrollY = window.scrollY;
+                    const yPos = `${scrollY * 0.4}px`;
+                    if (lqImageRef.current) lqImageRef.current.style.backgroundPositionY = yPos;
+                    if (hqImageRef.current) hqImageRef.current.style.backgroundPositionY = yPos;
+                };
+                let ticking = false;
+                const onScroll = () => {
+                    if (!ticking) {
+                        window.requestAnimationFrame(() => {
+                            handleParallaxScroll();
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                };
+                window.addEventListener('scroll', onScroll, { passive: true });
+                return () => window.removeEventListener('scroll', onScroll);
+            }, []);
+            
+            const commonBgStyles = {
+                backgroundSize: 'cover',
+                backgroundPosition: 'center top',
+                filter: 'blur(4px)',
+                transform: 'scale(1.05)',
+                willChange: 'background-position',
+            };
+
+            return (
+                React.createElement("section", { id: "home", className: "min-h-screen flex items-center justify-center px-4 pt-16 overflow-hidden relative group" },
+                    React.createElement("div", { ref: lqImageRef, className: "absolute inset-0 z-0", style: { ...commonBgStyles, backgroundImage: `url("${LQ_IMAGE_URL}")` } }),
+                    React.createElement("div", { ref: hqImageRef, className: `absolute inset-0 z-0 transition-opacity duration-1000 ease-in-out ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`, style: { ...commonBgStyles, backgroundImage: `url("${HQ_IMAGE_URL}")` } }),
+                    React.createElement("div", { className: "absolute inset-0 bg-gradient-to-br from-black/60 to-gray-900/70 z-10 transition-all duration-500 ease-in-out group-hover:from-black/50 group-hover:to-blue-900/60" }),
+                    React.createElement("div", { className: "container mx-auto text-center max-w-4xl relative z-20" },
+                        React.createElement("div", { className: "space-y-6" },
+                            React.createElement("div", { className: "flex justify-center mb-8" },
+                                React.createElement("div", { className: "relative top-8 w-48 h-48 rounded-full overflow-hidden border-4 border-blue-400/50 shadow-xl animate-fade-in", style: { animationDelay: '0.1s' } },
+                                    React.createElement("img", { src: "https://avatars.githubusercontent.com/u/221707959?s=400&u=3f6f606a289030d0256bacbe56dc8d269f04acf6&v=4", alt: "Soham S. Thakare", className: "object-cover w-full h-full" })
+                                )
+                            ),
+                            React.createElement("div", { className: "inline-block px-4 py-1.5 bg-white/10 rounded-full text-sm text-gray-200 mb-4 animate-fade-in", style: { animationDelay: '0.2s' } }, "Welcome to my portfolio"),
+                            React.createElement("h1", { className: "text-5xl md:text-7xl font-bold text-white animate-fade-in", style: { animationDelay: '0.3s' } }, React.createElement("span", { className: "text-blue-400" }, "Soham S. Thakare")),
+                            React.createElement("p", { className: "text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto animate-fade-in", style: { animationDelay: '0.4s' } }, "Engineering Student • Developer • Startup Founder"),
+                            React.createElement("p", { className: "text-lg text-gray-300 max-w-2xl mx-auto animate-fade-in", style: { animationDelay: '0.5s' } }, "Turning ideas into real-world solutions through code and creativity."),
+                            React.createElement("div", { className: "flex items-center justify-center gap-4 pt-6 animate-fade-in", style: { animationDelay: '0.6s' } },
+                                React.createElement("a", { href: "#projects", className: "px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold shadow-lg" }, "View My Work ", React.createElement("i", { className: "fas fa-arrow-down ml-2" })),
+                                React.createElement("a", { href: "#contact", className: "px-6 py-3 border border-white/50 text-white rounded-lg hover:bg-white/10 transition-colors" }, "Get in Touch")
+                            ),
+                            React.createElement("div", { className: "flex items-center justify-center gap-4 pt-8 animate-fade-in", style: { animationDelay: '0.7s' } },
+                                React.createElement("a", { href: "https://github.com/sohamthakre15", target: "_blank", rel: "noopener noreferrer", className: "w-10 h-10 flex items-center justify-center text-gray-300 hover:text-white transition-colors" }, React.createElement("i", { className: "fab fa-github text-xl" })),
+                                React.createElement("a", { href: "https://www.linkedin.com/in/soham-thakare-09060033b", target: "_blank", rel: "noopener noreferrer", className: "w-10 h-10 flex items-center justify-center text-gray-300 hover:text-white transition-colors" }, React.createElement("i", { className: "fab fa-linkedin text-xl" })),
+                                React.createElement("a", { href: "mailto:sohamthakrest15@gmail.com", className: "w-10 h-10 flex items-center justify-center text-gray-300 hover:text-white transition-colors" }, React.createElement("i", { className: "fas fa-envelope text-xl" })),
+                                React.createElement("a", { href: "https://www.instagram.com/soham_thakare_15", target: "_blank", rel: "noopener noreferrer", className: "w-10 h-10 flex items-center justify-center text-gray-300 hover:text-white transition-colors" }, React.createElement("i", { className: "fab fa-instagram text-xl" }))
+                            )
+                        )
+                    )
+                )
+            );
+        };
+
+        const About = () => {
+            const sectionRef = useRef(null);
+            const [isVisible, setIsVisible] = useState(false);
+            const personalInfo = [
+                { icon: "fa-calendar", label: "Born", value: "15 Oct 2005" },
+                { icon: "fa-map-marker-alt", label: "Location", value: "Yavatmal, Maharashtra, India" },
+                { icon: "fa-language", label: "Languages", value: "Hindi, English, Marathi" },
+                { icon: "fa-heart", label: "Hobbies", value: "Coding, Photography, Video Editing, Content Creation" },
+            ];
+            const educationInfo = [
+                { institution: "Jagdamba College of Engineering, Yavatmal", degree: "B.Tech in Computer Engineering", status: "Current" },
+                { institution: "Junior Science College", degree: "Higher Secondary Education (Science)" },
+                { institution: "Shalom English Medium School", degree: "Primary & Secondary Education" },
+            ];
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) {
+                        setIsVisible(true);
+                        observer.unobserve(entry.target);
+                    }
+                }, { threshold: 0.1 });
+                if (sectionRef.current) observer.observe(sectionRef.current);
+                return () => { if (sectionRef.current) observer.unobserve(sectionRef.current); };
+            }, []);
+
+            const InfoItem = ({ icon, label, value, isVisible, delay }) => (
+                React.createElement("div", { className: `flex items-start gap-3 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: `${delay}ms`} },
+                    React.createElement("div", { className: `w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0 ${isVisible ? 'animate-pop-in' : 'opacity-0'}`, style: { animationDelay: `${delay + 100}ms`} },
+                        React.createElement("i", { className: `fas ${icon} text-blue-600` })
+                    ),
+                    React.createElement("div", null,
+                        React.createElement("p", { className: "text-sm text-gray-600" }, label),
+                        React.createElement("p", { className: "mt-1 font-medium text-gray-900" }, value)
+                    )
+                )
+            );
+
+            const EducationItem = ({ institution, degree, status, isVisible, delay }) => (
+                React.createElement("div", { className: `relative pl-6 border-l-2 border-blue-200 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: `${delay}ms`} },
+                    React.createElement("div", { className: `absolute -left-2 top-0 w-4 h-4 rounded-full bg-blue-600 ${isVisible ? 'animate-pop-in' : 'opacity-0'}`, style: { animationDelay: `${delay + 100}ms`} }),
+                    React.createElement("div", null,
+                        React.createElement("p", { className: "font-semibold text-gray-900" }, institution),
+                        React.createElement("p", { className: "text-sm text-gray-600 mt-1" }, degree),
+                        status && React.createElement("span", { className: "inline-block mt-2 px-2 py-1 text-xs bg-blue-50 text-blue-600 rounded" }, status)
+                    )
+                )
+            );
+
+            return (
+                React.createElement("section", { id: "about", className: "py-24 px-4 bg-gradient-to-br from-sky-50 to-violet-100 overflow-hidden", ref: sectionRef },
+                    React.createElement("div", { className: "container mx-auto max-w-6xl" },
+                        React.createElement("div", { className: `text-center mb-16 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}` },
+                            React.createElement("h2", { className: "text-4xl md:text-5xl font-bold mb-4 text-gray-900" }, "About Me"),
+                            React.createElement("p", { className: "text-xl text-gray-600 max-w-2xl mx-auto" }, "Get to know more about my background, interests, and journey.")
+                        ),
+                        React.createElement("div", { className: "grid lg:grid-cols-2 gap-8" },
+                            React.createElement("div", { className: `bg-white rounded-lg shadow-md p-6 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: '200ms' } },
+                                React.createElement("h3", { className: "text-2xl font-semibold mb-6 flex items-center gap-2 text-gray-900" }, React.createElement("i", { className: "fas fa-user text-blue-600" }), "Personal Information"),
+                                React.createElement("div", { className: "space-y-6" },
+                                    personalInfo.map((item, index) => React.createElement(InfoItem, { key: item.label, ...item, isVisible: isVisible, delay: 200 + (index + 1) * 100 }))
+                                )
+                            ),
+                            React.createElement("div", { className: `bg-white rounded-lg shadow-md p-6 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: '400ms' } },
+                                React.createElement("h3", { className: "text-2xl font-semibold mb-6 flex items-center gap-2 text-gray-900" }, React.createElement("i", { className: "fas fa-graduation-cap text-blue-600" }), "Education"),
+                                React.createElement("div", { className: "space-y-6" },
+                                    educationInfo.map((item, index) => React.createElement(EducationItem, { key: item.institution, ...item, isVisible: isVisible, delay: 400 + (index + 1) * 100 }))
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        };
+
+        const Skills = () => {
+            const sectionRef = useRef(null);
+            const [isVisible, setIsVisible] = useState(false);
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) {
+                        setIsVisible(true);
+                        observer.unobserve(entry.target);
+                    }
+                }, { threshold: 0.1 });
+                if (sectionRef.current) observer.observe(sectionRef.current);
+                return () => { if (sectionRef.current) observer.unobserve(sectionRef.current); };
+            }, []);
+
+            const SoftSkillBar = ({ name, level, isVisible, delay }) => {
+                return (
+                    React.createElement("div", { className: `p-2 -m-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-50 hover:shadow-inner ${isVisible ? 'animate-fade-in-scale-up' : 'opacity-0'}`, style: { animationDelay: `${delay}ms` } },
+                        React.createElement("div", { className: "flex justify-between items-center mb-2" },
+                            React.createElement("span", { className: "text-sm font-medium text-gray-900" }, name),
+                            React.createElement("span", { className: "text-sm text-gray-600" }, level, "%")
+                        ),
+                        React.createElement("div", { className: "bg-gray-200 rounded-full overflow-hidden h-2" },
+                            React.createElement("div", { className: "bg-blue-600 h-full rounded-full transition-[width] duration-1000 ease-out", style: { width: isVisible ? `${level}%` : '0%', transitionDelay: `${delay + 400}ms` } })
+                        )
+                    )
+                );
+            };
+
+            return (
+                React.createElement("section", { id: "skills", className: "py-24 px-4 bg-gradient-to-br from-sky-100 to-violet-200 overflow-hidden", ref: sectionRef },
+                    React.createElement("div", { className: "container mx-auto max-w-6xl" },
+                        React.createElement("div", { className: `text-center mb-16 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}` },
+                            React.createElement("h2", { className: "text-4xl md:text-5xl font-bold mb-4 text-gray-900" }, "Skills & Expertise"),
+                            React.createElement("p", { className: "text-xl text-gray-600 max-w-2xl mx-auto" }, "A comprehensive toolkit combining technical proficiency with strong interpersonal abilities.")
+                        ),
+                        React.createElement("div", { className: "grid lg:grid-cols-2 gap-8" },
+                            React.createElement("div", { className: `bg-white rounded-lg shadow-md p-6 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: '200ms' } },
+                                React.createElement("h3", { className: "text-2xl font-semibold mb-6 flex items-center gap-2 text-gray-900" }, React.createElement("i", { className: "fas fa-code text-blue-600" }), "Technical Skills"),
+                                React.createElement("div", { className: "flex flex-wrap gap-2" },
+                                    TECHNICAL_SKILLS.map((skill, index) => (
+                                        React.createElement("span", { key: skill, className: `px-4 py-2 bg-gray-100 text-gray-800 rounded-lg text-sm hover:bg-blue-50 hover:text-blue-600 hover:-translate-y-1 hover:scale-105 transition-all duration-200 cursor-default ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: `${300 + index * 40}ms`} }, skill)
+                                    ))
+                                )
+                            ),
+                            React.createElement("div", { className: `bg-white rounded-lg shadow-md p-6 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: '400ms' } },
+                                React.createElement("h3", { className: "text-2xl font-semibold mb-6 flex items-center gap-2 text-gray-900" }, React.createElement("i", { className: "fas fa-users text-blue-600" }), "Soft Skills"),
+                                React.createElement("div", { className: "space-y-6" },
+                                    SOFT_SKILLS.map((skill, index) => React.createElement(SoftSkillBar, { key: skill.name, ...skill, isVisible: isVisible, delay: 500 + index * 80 }))
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        };
+        
+        const ProjectModal = ({ project, onClose }) => {
+            useEffect(() => {
+                document.body.style.overflow = 'hidden';
+                return () => { document.body.style.overflow = 'auto'; };
+            }, []);
+
+            return (
+                React.createElement("div", { className: "fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in", onClick: onClose },
+                    React.createElement("div", { className: "bg-white rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 relative animate-slide-up", onClick: (e) => e.stopPropagation() },
+                        React.createElement("button", { onClick: onClose, className: "absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl leading-none z-10" }, "×"),
+                        project.imageUrl && React.createElement("div", { className: "aspect-video w-full overflow-hidden rounded-lg mb-4 bg-gray-100" },
+                            React.createElement("img", { src: project.imageUrl, alt: project.title, className: "w-full h-full object-cover" })
+                        ),
+                        React.createElement("h3", { className: "text-2xl font-bold mb-4 text-gray-900" }, project.title),
+                        React.createElement("p", { className: "text-gray-600 mb-6" }, project.detailedDescription),
+                        React.createElement("div", null,
+                            React.createElement("h4", { className: "text-lg font-semibold mb-3 text-gray-800" }, "Technologies Used"),
+                            React.createElement("div", { className: "flex flex-wrap gap-2" },
+                                project.technologies.map(tech => React.createElement("span", { key: tech, className: "px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-sm font-medium" }, tech))
+                            )
+                        )
+                    )
+                )
+            );
+        };
+
+        const Projects = () => {
+            const sectionRef = useRef(null);
+            const [isSectionVisible, setIsSectionVisible] = useState(false);
+            const [selectedProject, setSelectedProject] = useState(null);
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) {
+                        setIsSectionVisible(true);
+                        observer.unobserve(entry.target);
+                    }
+                }, { threshold: 0.1 });
+                if (sectionRef.current) observer.observe(sectionRef.current);
+                return () => { if (sectionRef.current) observer.unobserve(sectionRef.current); };
+            }, []);
+            
+            useEffect(() => {
+                const handleEsc = (event) => { if (event.key === 'Escape') closeModal(); };
+                window.addEventListener('keydown', handleEsc);
+                return () => window.removeEventListener('keydown', handleEsc);
+            }, []);
+
+            const openModal = (project) => setSelectedProject(project);
+            const closeModal = () => setSelectedProject(null);
+
+            return (
+                React.createElement(React.Fragment, null,
+                    React.createElement("section", { id: "projects", className: "py-24 px-4 bg-gradient-to-br from-sky-50 to-violet-100 overflow-hidden", ref: sectionRef },
+                        React.createElement("div", { className: "container mx-auto max-w-6xl" },
+                            React.createElement("div", { className: `text-center mb-16 ${isSectionVisible ? 'animate-fade-in-up' : 'opacity-0'}` },
+                                React.createElement("h2", { className: "text-4xl md:text-5xl font-bold mb-4 text-gray-900" }, "Projects"),
+                                React.createElement("p", { className: "text-xl text-gray-600 max-w-2xl mx-auto" }, "Innovative solutions combining hardware and software to solve real-world problems.")
+                            ),
+                            React.createElement("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" },
+                                PROJECTS.map((project, index) => (
+                                    React.createElement("div", { key: project.title, className: `bg-gradient-to-br from-white to-gray-50 rounded-lg shadow-md transition-all duration-300 ease-in-out hover:shadow-lg hover:scale-105 hover:-translate-y-1 hover:from-blue-50 hover:to-violet-100 flex flex-col ${isSectionVisible ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: `${index * 150}ms` } },
+                                        React.createElement("div", { className: "p-6 flex-grow" },
+                                            React.createElement("div", { className: "w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center mb-4" },
+                                                React.createElement("i", { className: `fas ${project.icon} text-blue-600 text-xl` })
+                                            ),
+                                            React.createElement("h3", { className: "text-xl font-semibold mb-2 text-gray-900" }, project.title),
+                                            React.createElement("p", { className: "text-gray-600 text-sm mb-4" }, project.description),
+                                            React.createElement("div", { className: "flex flex-wrap gap-2" },
+                                                project.tags.map(tag => React.createElement("span", { key: tag, className: "px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-700" }, tag))
+                                            )
+                                        ),
+                                        React.createElement("div", { className: "p-6 pt-0" },
+                                            React.createElement("button", { onClick: () => openModal(project), className: "w-full px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors text-gray-800 text-sm font-medium" }, "View Details")
+                                        )
+                                    )
+                                ))
+                            )
+                        )
+                    ),
+                    selectedProject && React.createElement(ProjectModal, { project: selectedProject, onClose: closeModal })
+                )
+            );
+        };
+        
+        const Websites = () => {
+            const sectionRef = useRef(null);
+            const [isVisible, setIsVisible] = useState(false);
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) {
+                        setIsVisible(true);
+                        observer.unobserve(entry.target);
+                    }
+                }, { threshold: 0.1 });
+                if (sectionRef.current) observer.observe(sectionRef.current);
+                return () => { if (sectionRef.current) observer.unobserve(sectionRef.current); };
+            }, []);
+
+            return (
+                React.createElement("section", { id: "websites", className: "py-24 px-4 bg-gradient-to-br from-sky-100 to-violet-200 overflow-hidden", ref: sectionRef },
+                    React.createElement("div", { className: "container mx-auto max-w-6xl" },
+                        React.createElement("div", { className: `text-center mb-16 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}` },
+                            React.createElement("h2", { className: "text-4xl md:text-5xl font-bold mb-4 text-gray-900" }, "Websites"),
+                            React.createElement("p", { className: "text-xl text-gray-600 max-w-2xl mx-auto" }, "Live web applications and platforms built with modern technologies.")
+                        ),
+                        React.createElement("div", { className: "grid md:grid-cols-2 lg:grid-cols-3 gap-6" },
+                            WEBSITES.map((website, index) => (
+                                React.createElement("div", { key: website.title, className: `bg-white rounded-lg shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[1.03] hover:-translate-y-1 flex flex-col ${isVisible ? 'animate-fade-in-scale-up' : 'opacity-0'}`, style: { animationDelay: `${index * 150}ms` } },
+                                    React.createElement("div", { className: "p-6 flex-grow" },
+                                        React.createElement("div", { className: "flex items-start justify-between mb-2" },
+                                            React.createElement("h3", { className: "text-xl font-semibold text-gray-900" }, website.title),
+                                            React.createElement("span", { className: `px-2 py-1 rounded text-xs ${website.status === 'Live' ? 'bg-green-50 text-green-600' : 'bg-gray-200 text-gray-600'} flex items-center gap-1` },
+                                                website.status === 'Coming Soon' && React.createElement("i", { className: "fas fa-clock" }),
+                                                website.status
+                                            )
+                                        ),
+                                        React.createElement("p", { className: "text-gray-600 text-sm mb-4" }, website.description),
+                                        React.createElement("div", { className: "flex flex-wrap gap-2 mb-4" },
+                                            website.tags.map(tag => React.createElement("span", { key: tag, className: "px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-700" }, tag))
+                                        )
+                                    ),
+                                    website.url && React.createElement("div", { className: "p-6 pt-0" },
+                                        React.createElement("a", { href: website.url, target: "_blank", rel: "noopener noreferrer", className: "w-full inline-block text-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-800" },
+                                            React.createElement("i", { className: "fas fa-external-link-alt mr-2" }), "Visit Website"
+                                        )
+                                    )
+                                )
+                            ))
+                        )
+                    )
+                )
+            );
+        };
+        
+        const Startup = () => {
+            const sectionRef = useRef(null);
+            const [isVisible, setIsVisible] = useState(false);
+            const [isExpanded, setIsExpanded] = useState(false);
+            const toggleExpansion = () => setIsExpanded(!isExpanded);
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) {
+                        setIsVisible(true);
+                        observer.unobserve(entry.target);
+                    }
+                }, { threshold: 0.1 });
+                if (sectionRef.current) observer.observe(sectionRef.current);
+                return () => { if (sectionRef.current) observer.unobserve(sectionRef.current); };
+            }, []);
+
+            const shouldAnimate = isVisible && isExpanded;
+
+            const ServiceCard = ({ icon, title, description, isVisible, delay }) => (
+                React.createElement("div", { className: `bg-white rounded-lg shadow-md p-6 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: `${delay}ms` } },
+                    React.createElement("div", { className: "w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center mb-4" }, React.createElement("i", { className: `fas ${icon} text-blue-600 text-xl` })),
+                    React.createElement("h4", { className: "text-lg font-semibold mb-2 text-gray-900" }, title),
+                    React.createElement("p", { className: "text-sm text-gray-600" }, description)
+                )
+            );
+
+            const FounderCard = ({ imgSrc, name, role, description, isVisible, delay }) => (
+                React.createElement("div", { className: `bg-white rounded-lg shadow-md p-6 text-center ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: `${delay}ms` } },
+                    React.createElement("div", { className: "w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-blue-200" },
+                         imgSrc ? React.createElement("img", { src: imgSrc, alt: name, className: "object-cover w-full h-full" })
+                                : React.createElement("div", { className: "w-full h-full bg-blue-50 flex items-center justify-center" }, React.createElement("span", { className: "text-3xl text-blue-600 font-bold" }, name.split(' ').map(n => n[0]).join('')))
+                    ),
+                    React.createElement("h4", { className: "text-xl font-semibold text-gray-900" }, name),
+                    React.createElement("p", { className: "text-sm text-gray-600 mb-2" }, role),
+                    React.createElement("p", { className: "text-sm text-gray-600" }, description)
+                )
+            );
+
+            return (
+                React.createElement("section", { id: "startup", className: "py-24 px-4 bg-gradient-to-br from-sky-50 to-violet-100 overflow-hidden", ref: sectionRef },
+                    React.createElement("div", { className: "container mx-auto max-w-6xl" },
+                        React.createElement("div", { className: `text-center mb-8 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}` },
+                            React.createElement("img", { src: STARTUP_INFO.logo, alt: "Codenbuild Logo", className: "h-20 mx-auto mb-4 bg-white rounded-lg p-2 shadow-md" }),
+                            React.createElement("h2", { className: "text-4xl md:text-5xl font-bold mb-4 text-gray-900" }, STARTUP_INFO.name),
+                            React.createElement("p", { className: "text-xl text-gray-600 max-w-3xl mx-auto" }, STARTUP_INFO.tagline)
+                        ),
+                        React.createElement("div", { className: `flex justify-center items-center gap-4 flex-wrap mb-12 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: '100ms' } },
+                            React.createElement("button", { onClick: toggleExpansion, className: "px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-800", "aria-expanded": isExpanded, "aria-controls": "startup-details" }, isExpanded ? 'View Less' : 'View More', React.createElement("i", { className: `fas ${isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'} ml-2 transition-transform duration-300` })),
+                            React.createElement("a", { href: "https://codenbuild.netlify.app", target: "_blank", rel: "noopener noreferrer", className: "px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold shadow-lg" }, React.createElement("i", { className: "fas fa-external-link-alt mr-2" }), "Visit Website"),
+                            React.createElement("a", { href: "https://www.instagram.com/codenbuild_support", target: "_blank", rel: "noopener noreferrer", className: "px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-800" }, React.createElement("i", { className: "fab fa-instagram mr-2" }), "Follow")
+                        ),
+                        React.createElement("div", { id: "startup-details", className: `transition-all duration-700 ease-in-out overflow-hidden ${isExpanded ? 'max-h-[3000px] opacity-100' : 'max-h-0 opacity-0'}` },
+                            React.createElement("div", { className: "mb-16" },
+                                React.createElement("h3", { className: `text-3xl font-semibold text-center mb-8 text-gray-900 ${shouldAnimate ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: '200ms' } }, "What We Do"),
+                                React.createElement("div", { className: "grid md:grid-cols-2 lg:grid-cols-4 gap-6" },
+                                    STARTUP_INFO.services.map((service, index) => React.createElement(ServiceCard, { key: service.title, ...service, isVisible: shouldAnimate, delay: 300 + index * 100 }))
+                                )
+                            ),
+                            React.createElement("div", { className: "grid md:grid-cols-2 gap-8 mb-16" },
+                                React.createElement("div", { className: `bg-blue-50 border-2 border-blue-200 rounded-lg p-6 ${shouldAnimate ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: '400ms' } },
+                                    React.createElement("h4", { className: "text-2xl font-semibold mb-4 flex items-center gap-2 text-gray-900" }, React.createElement("i", { className: "fas fa-bullseye text-blue-600" }), "Mission"),
+                                    React.createElement("p", { className: "text-lg text-gray-700" }, STARTUP_INFO.mission)
+                                ),
+                                React.createElement("div", { className: `bg-blue-50 border-2 border-blue-200 rounded-lg p-6 ${shouldAnimate ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: '500ms' } },
+                                    React.createElement("h4", { className: "text-2xl font-semibold mb-4 flex items-center gap-2 text-gray-900" }, React.createElement("i", { className: "fas fa-eye text-blue-600" }), "Vision"),
+                                    React.createElement("p", { className: "text-lg text-gray-700" }, STARTUP_INFO.vision)
+                                )
+                            ),
+                            React.createElement("div", { className: "mb-16" },
+                                React.createElement("h3", { className: `text-3xl font-semibold text-center mb-8 text-gray-900 ${shouldAnimate ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: '600ms' } }, "Core Values"),
+                                React.createElement("div", { className: "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" },
+                                    STARTUP_INFO.coreValues.map((value, index) => (
+                                        React.createElement("div", { key: value.title, className: `bg-white rounded-lg shadow-md p-4 text-center ${shouldAnimate ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: `${700 + index * 80}ms` } },
+                                            React.createElement("div", { className: "w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center mx-auto mb-2" }, React.createElement("i", { className: `fas ${value.icon} text-blue-600` })),
+                                            React.createElement("h5", { className: "font-semibold mb-1 text-gray-900" }, value.title),
+                                            React.createElement("p", { className: "text-xs text-gray-600" }, value.description)
+                                        )
+                                    ))
+                                )
+                            ),
+                            React.createElement("div", { className: "mb-16" },
+                                React.createElement("h3", { className: `text-3xl font-semibold text-center mb-8 text-gray-900 ${shouldAnimate ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: '800ms' } }, "Founders"),
+                                React.createElement("div", { className: "grid md:grid-cols-2 gap-8 max-w-4xl mx-auto" },
+                                    STARTUP_INFO.founders.map((founder, index) => React.createElement(FounderCard, { key: founder.name, ...founder, isVisible: shouldAnimate, delay: 900 + index * 150 }))
+                                )
+                            ),
+                            React.createElement("div", { className: "bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-lg p-8 mb-8" },
+                                React.createElement("h3", { className: `text-2xl font-semibold text-center mb-6 text-gray-900 ${shouldAnimate ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: '1000ms' } }, "Why Codenbuild?"),
+                                React.createElement("div", { className: "grid md:grid-cols-2 gap-4" },
+                                    STARTUP_INFO.whyUs.map((point, index) => (
+                                        React.createElement("div", { key: point, className: `flex items-center gap-3 ${shouldAnimate ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: `${1100 + index * 80}ms` } },
+                                            React.createElement("div", { className: "w-2 h-2 rounded-full bg-blue-600 flex-shrink-0" }),
+                                            React.createElement("p", { className: "text-gray-700" }, point)
+                                        )
+                                    ))
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        };
+        
+        const CertificateModal = ({ certificate, onClose }) => {
+            useEffect(() => {
+                document.body.style.overflow = 'hidden';
+                return () => { document.body.style.overflow = 'auto'; };
+            }, []);
+
+            return (
+                React.createElement("div", { className: "fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in", onClick: onClose },
+                    React.createElement("div", { className: "bg-white rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 relative animate-slide-up", onClick: (e) => e.stopPropagation() },
+                        React.createElement("div", { className: "flex justify-between items-start mb-4" },
+                            React.createElement("div", null,
+                                React.createElement("h3", { className: "text-2xl font-bold mb-2 text-gray-900" }, certificate.title),
+                                React.createElement("div", { className: "flex flex-wrap gap-2" },
+                                    React.createElement("span", { className: "px-3 py-1 bg-blue-100 text-blue-600 rounded text-sm" }, certificate.type),
+                                    React.createElement("span", { className: "px-3 py-1 bg-gray-100 text-gray-600 rounded text-sm" }, certificate.category)
+                                )
+                            ),
+                            React.createElement("button", { onClick: onClose, className: "text-gray-500 hover:text-gray-700 text-2xl leading-none" }, "×")
+                        ),
+                        React.createElement("img", { src: certificate.image, alt: certificate.title, className: "w-full rounded-lg mb-4 border" }),
+                        React.createElement("p", { className: "text-gray-600" }, certificate.description),
+                        React.createElement("div", { className: "mt-6 border-t pt-4 flex flex-col sm:flex-row gap-4 sm:gap-8 text-sm text-gray-700" },
+                            React.createElement("div", { className: "flex items-center gap-2" },
+                                React.createElement("i", { className: "fas fa-university text-blue-600" }),
+                                React.createElement("span", null, React.createElement("strong", null, "Issued by:"), " ", certificate.issuer)
+                            ),
+                            React.createElement("div", { className: "flex items-center gap-2" },
+                                React.createElement("i", { className: "fas fa-calendar-alt text-blue-600" }),
+                                React.createElement("span", null, React.createElement("strong", null, "Date:"), " ", certificate.date)
+                            )
+                        )
+                    )
+                )
+            );
+        };
+
+        const Certificates = () => {
+            const [selectedCertificate, setSelectedCertificate] = useState(null);
+            const sectionRef = useRef(null);
+            const [isVisible, setIsVisible] = useState(false);
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) {
+                        setIsVisible(true);
+                        observer.unobserve(entry.target);
+                    }
+                }, { threshold: 0.1 });
+                if (sectionRef.current) observer.observe(sectionRef.current);
+                return () => { if (sectionRef.current) observer.unobserve(sectionRef.current); };
+            }, []);
+            
+            useEffect(() => {
+                const handleEsc = (event) => { if (event.key === 'Escape') closeModal(); };
+                window.addEventListener('keydown', handleEsc);
+                return () => window.removeEventListener('keydown', handleEsc);
+            }, []);
+
+            const openModal = (certificate) => setSelectedCertificate(certificate);
+            const closeModal = () => setSelectedCertificate(null);
+
+            return (
+                React.createElement(React.Fragment, null,
+                    React.createElement("section", { id: "certificates", className: "py-24 px-4 bg-gradient-to-br from-sky-100 to-violet-200 overflow-hidden", ref: sectionRef },
+                        React.createElement("div", { className: "container mx-auto max-w-6xl" },
+                            React.createElement("div", { className: `text-center mb-16 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}` },
+                                React.createElement("h2", { className: "text-4xl md:text-5xl font-bold mb-4 text-gray-900" }, "Certificates"),
+                                React.createElement("p", { className: "text-xl text-gray-600 max-w-2xl mx-auto" }, "Recognition and achievements from various competitions, events, and projects.")
+                            ),
+                            React.createElement("div", { className: "grid md:grid-cols-2 lg:grid-cols-3 gap-6" },
+                                CERTIFICATES.map((cert, index) => (
+                                    React.createElement("div", { key: cert.title, className: `bg-white rounded-lg shadow-md hover:shadow-xl hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 cursor-pointer group ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: `${index * 150}ms` }, onClick: () => openModal(cert) },
+                                        React.createElement("div", { className: "aspect-video overflow-hidden rounded-t-lg bg-gray-100" },
+                                            React.createElement("img", { src: cert.image, alt: cert.title, className: "object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" })
+                                        ),
+                                        React.createElement("div", { className: "p-4" },
+                                            React.createElement("div", { className: "flex items-start justify-between gap-2 mb-2" },
+                                                React.createElement("div", { className: "flex-1" },
+                                                    React.createElement("h3", { className: "text-lg font-semibold text-gray-900" }, cert.title),
+                                                    React.createElement("p", { className: "text-sm text-gray-600 mt-1" }, cert.type)
+                                                ),
+                                                React.createElement("i", { className: "fas fa-award text-blue-600 flex-shrink-0" })
+                                            ),
+                                            React.createElement("span", { className: "inline-block px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-700" }, cert.category)
+                                        )
+                                    )
+                                ))
+                            )
+                        )
+                    ),
+                    selectedCertificate && React.createElement(CertificateModal, { certificate: selectedCertificate, onClose: closeModal })
+                )
+            );
+        };
+        
+        const Contact = () => {
+            const sectionRef = useRef(null);
+            const [isVisible, setIsVisible] = useState(false);
+            const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+            const [errors, setErrors] = useState({ email: '' });
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) {
+                        setIsVisible(true);
+                        observer.unobserve(entry.target);
+                    }
+                }, { threshold: 0.1 });
+                if (sectionRef.current) observer.observe(sectionRef.current);
+                return () => { if (sectionRef.current) observer.unobserve(sectionRef.current); };
+            }, []);
+
+            const handleChange = (e) => {
+                const { name, value } = e.target;
+                setFormData(prevState => ({ ...prevState, [name]: value }));
+            };
+
+            const validateEmail = (email) => {
+                const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(email).toLowerCase());
+            };
+            
+            const handleFormSubmit = (e) => {
+                e.preventDefault();
+                if (!validateEmail(formData.email)) {
+                    setErrors({ email: 'Please enter a valid email address.' });
+                    return;
+                }
+                setErrors({ email: '' });
+                alert('Message sent successfully! I\'ll get back to you soon.');
+                setFormData({ name: '', email: '', message: '' });
+            };
+
+            const ContactInfoCard = ({ icon, title, link, text, isExternal = false }) => (
+                React.createElement("div", { className: "bg-white rounded-lg shadow-md p-6" },
+                    React.createElement("div", { className: "w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center mb-4" }, React.createElement("i", { className: `${icon} text-blue-600 text-xl` })),
+                    React.createElement("h4", { className: "text-xl font-semibold mb-2 text-gray-900" }, title),
+                    React.createElement("a", { href: link, target: isExternal ? "_blank" : "_self", rel: isExternal ? "noopener noreferrer" : "", className: "text-gray-600 hover:text-blue-600 transition-colors break-all" }, text)
+                )
+            );
+
+            const SocialLink = ({ icon, text, href }) => (
+                React.createElement("a", { href: href, target: "_blank", rel: "noopener noreferrer", className: "flex items-center gap-3 text-gray-600 hover:text-blue-600 transition-colors" },
+                    React.createElement("i", { className: `${icon} text-xl` }),
+                    text
+                )
+            );
+
+            return (
+                React.createElement("section", { id: "contact", className: "py-24 px-4 bg-gradient-to-br from-sky-50 to-violet-100 overflow-hidden", ref: sectionRef },
+                    React.createElement("div", { className: "container mx-auto max-w-6xl" },
+                        React.createElement("div", { className: `text-center mb-16 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}` },
+                            React.createElement("h2", { className: "text-4xl md:text-5xl font-bold mb-4 text-gray-900" }, "Get In Touch"),
+                            React.createElement("p", { className: "text-xl text-gray-600 max-w-2xl mx-auto" }, "Have a project in mind or want to collaborate? Let's connect and create something amazing together.")
+                        ),
+                        React.createElement("div", { className: "grid lg:grid-cols-3 gap-8" },
+                            React.createElement("div", { className: `lg:col-span-2 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: '200ms' } },
+                                React.createElement("div", { className: "bg-white rounded-lg shadow-md p-6" },
+                                    React.createElement("h3", { className: "text-2xl font-semibold mb-2 text-gray-900" }, "Send me a message"),
+                                    React.createElement("p", { className: "text-gray-600 mb-6" }, "Fill out the form below and I'll get back to you as soon as possible."),
+                                    React.createElement("form", { onSubmit: handleFormSubmit, className: "space-y-6" },
+                                        React.createElement("div", { className: "space-y-2" },
+                                            React.createElement("label", { htmlFor: "name", className: "block text-sm font-medium text-gray-700" }, "Name"),
+                                            React.createElement("input", { type: "text", id: "name", name: "name", required: true, className: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 placeholder-gray-400", placeholder: "Your name", value: formData.name, onChange: handleChange })
+                                        ),
+                                        React.createElement("div", { className: "space-y-2" },
+                                            React.createElement("label", { htmlFor: "email", className: "block text-sm font-medium text-gray-700" }, "Email"),
+                                            React.createElement("input", { type: "email", id: "email", name: "email", required: true, className: `w-full px-4 py-2 border rounded-lg focus:ring-2 focus:border-transparent transition-colors bg-white text-gray-900 placeholder-gray-400 ${errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'}`, placeholder: "your.email@example.com", value: formData.email, onChange: handleChange }),
+                                            errors.email && React.createElement("p", { className: "text-red-500 text-xs mt-1" }, errors.email)
+                                        ),
+                                        React.createElement("div", { className: "space-y-2" },
+                                            React.createElement("label", { htmlFor: "message", className: "block text-sm font-medium text-gray-700" }, "Message"),
+                                            React.createElement("textarea", { id: "message", name: "message", required: true, rows: 5, className: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 placeholder-gray-400", placeholder: "Tell me about your project or idea...", value: formData.message, onChange: handleChange })
+                                        ),
+                                        React.createElement("button", { type: "submit", className: "w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" }, "Send Message")
+                                    )
+                                )
+                            ),
+                            React.createElement("div", { className: `space-y-6 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`, style: { animationDelay: '400ms' } },
+                                React.createElement(ContactInfoCard, { icon: "fas fa-envelope", title: "Email", link: "mailto:sohamthakrest15@gmail.com", text: "sohamthakrest15@gmail.com" }),
+                                React.createElement(ContactInfoCard, { icon: "fab fa-whatsapp", title: "WhatsApp", link: "https://wa.me/917822916318", text: "+91 7822916318", isExternal: true }),
+                                React.createElement("div", { className: "bg-white rounded-lg shadow-md p-6" },
+                                    React.createElement("h4", { className: "text-xl font-semibold mb-4 text-gray-900" }, "Social Links"),
+                                    React.createElement("div", { className: "space-y-3" },
+                                        React.createElement(SocialLink, { icon: "fab fa-github", text: "GitHub", href: "https://github.com/sohamthakre15" }),
+                                        React.createElement(SocialLink, { icon: "fab fa-linkedin", text: "LinkedIn", href: "https://www.linkedin.com/in/soham-thakare-09060033b" }),
+                                        React.createElement(SocialLink, { icon: "fab fa-instagram", text: "Personal Instagram", href: "https://www.instagram.com/soham_thakare_15" }),
+                                        React.createElement(SocialLink, { icon: "fab fa-instagram", text: "Codenbuild Instagram", href: "https://www.instagram.com/codenbuild_support" })
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        };
+        
+        const Footer = () => {
+            return (
+                React.createElement("footer", { className: "bg-gray-200 py-8 border-t border-gray-300" },
+                    React.createElement("div", { className: "container mx-auto px-4 text-center text-gray-600" },
+                        React.createElement("p", null, "© ", new Date().getFullYear(), " Soham S. Thakare. All rights reserved.")
+                    )
+                )
+            );
+        };
+
+        // --- APP ---
+        const App = () => {
+            return (
+                React.createElement(React.Fragment, null,
+                    React.createElement(Intro, null),
+                    React.createElement(Navbar, null),
+                    React.createElement("main", null,
+                        React.createElement(Hero, null),
+                        React.createElement(About, null),
+                        React.createElement(Skills, null),
+                        React.createElement(Projects, null),
+                        React.createElement(Websites, null),
+                        React.createElement(Startup, null),
+                        React.createElement(Certificates, null),
+                        React.createElement(Contact, null)
+                    ),
+                    React.createElement(Footer, null)
+                )
+            );
+        };
+
+        // --- RENDER ---
+        const rootElement = document.getElementById('root');
+        if (!rootElement) {
+          throw new Error("Could not find root element to mount to");
+        }
+        const root = ReactDOM.createRoot(rootElement);
+        root.render(
+          React.createElement(React.StrictMode, null,
+            React.createElement(App, null)
+          )
+        );
+    </script>
+</body>
+</html>
